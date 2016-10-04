@@ -12,7 +12,7 @@ ASimpleAIController::ASimpleAIController()
 
 float ASimpleAIController::Score(float distance, float time_left)
 {
-    return 1.f / (distance + 350.f * time_left + 1.f);
+    return distance * time_left;
 }
 
 void ASimpleAIController::Tick(float DeltaSeconds)
@@ -52,7 +52,7 @@ void ASimpleAIController::Tick(float DeltaSeconds)
         return;
     }
 
-    float score = 0;
+    float score = 1000000000;
     int order = 0;
     for (int i = 0; i < Orders.Num(); ++i) {
         float currentDistance = GetDistanceToDestination(HouseLocations[Orders[i].HouseNumber]);
@@ -61,7 +61,7 @@ void ASimpleAIController::Tick(float DeltaSeconds)
             order = i;
             break;
         }
-        if (score < currentScore) {
+        if (score > currentScore) {
             score = currentScore;
             order = i;
         }
