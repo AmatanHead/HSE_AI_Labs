@@ -11,15 +11,20 @@
 UCLASS()
 class LAB_1_API ASimpleAIController : public ABaseAIController
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     ASimpleAIController();
+
+private:
+
+    float Score(float distance, float time_left);
 
 protected:
     virtual void Tick(float DeltaSeconds) override;
 
     bool bDeliveringOrder;
+    bool bIsNewDelivery;
     int CurrentOrderNumber;
     FVector CurrentDestination;
 };
