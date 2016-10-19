@@ -157,8 +157,10 @@ void ALab_1GameMode::SpawnPizza()
     auto* Actor = Houses[HouseIndex].Actor;
     int OrderNumber = TotalPizzaOrderCount++;
     auto Order = Actor->OrderPizzaDelivery(OrderNumber);
+    UE_LOG(LogTemp, Warning, TEXT("%d"), PizzaOrders.Num());
     PizzaOrders.Add(Order);
     UE_LOG(LogTemp, Warning, TEXT("Spawning pizza at %d, order number %d"), HouseIndex, OrderNumber);
+    UE_LOG(LogTemp, Warning, TEXT("%d"), PizzaOrders.Num());
 }
 
 TArray<FPizzaOrder> ALab_1GameMode::GetPizzaOrders() const

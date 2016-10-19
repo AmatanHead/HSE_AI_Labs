@@ -11,19 +11,19 @@ class HouseActor;
 UCLASS()
 class LAB_1_API ALevelGeneratorActor : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ALevelGeneratorActor();
+    GENERATED_BODY()
+    
+public: 
+    // Sets default values for this actor's properties
+    ALevelGeneratorActor();
 
     void OnConstruction(const FTransform& Transform) override;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
+    
+    // Called every frame
+    virtual void Tick( float DeltaSeconds ) override;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Level)
     UStaticMeshComponent* FloorMesh;

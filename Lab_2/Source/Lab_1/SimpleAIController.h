@@ -11,7 +11,7 @@
 UCLASS()
 class LAB_1_API ASimpleAIController : public ABaseAIController
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     ASimpleAIController();

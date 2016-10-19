@@ -19,10 +19,10 @@ enum class ELab_1PlayState : short
 UCLASS(minimalapi)
 class ALab_1GameMode : public AGameMode
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	ALab_1GameMode();
+    ALab_1GameMode();
 
     virtual void Tick(float DeltaSeconds) override;
 
@@ -116,6 +116,3 @@ private:
     void HandleNewState(ELab_1PlayState NewState);
 
 };
-
-
-

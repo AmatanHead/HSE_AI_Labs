@@ -15,8 +15,8 @@ class ALab_1GameMode;
 UCLASS()
 class LAB_1_API ABaseAIController : public AAIController
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+    
 public:
     ABaseAIController();
 

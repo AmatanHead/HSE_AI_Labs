@@ -11,7 +11,7 @@
 UCLASS()
 class LAB_1_API APizzaHUD : public AHUD
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     APizzaHUD();

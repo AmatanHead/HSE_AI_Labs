@@ -11,7 +11,7 @@ ACleverAIController::ACleverAIController()
 
 float ACleverAIController::ComputeHouseScore(float Distance, float TimeLeft) const
 {
-    return - fmax(Distance - 150.f, 1.f) * (TimeLeft * TimeLeft);
+    return fmax(Distance - 150.f, 1.f) * (TimeLeft * TimeLeft);
 }
 
 void ACleverAIController::Tick(float DeltaSeconds)

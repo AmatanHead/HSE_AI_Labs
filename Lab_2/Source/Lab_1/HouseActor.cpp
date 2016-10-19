@@ -7,8 +7,8 @@
 // Sets default values
 AHouseActor::AHouseActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
 
     // Create collision component.
     BaseCollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));

@@ -12,8 +12,8 @@
 // Sets default values
 ALevelGeneratorActor::ALevelGeneratorActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
 
     FloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FloorMesh"));
     RootComponent = FloorMesh;
@@ -174,5 +174,5 @@ void ALevelGeneratorActor::BeginPlay()
 // Called every frame
 void ALevelGeneratorActor::Tick( float DeltaTime )
 {
-	Super::Tick( DeltaTime );
+    Super::Tick( DeltaTime );
 }

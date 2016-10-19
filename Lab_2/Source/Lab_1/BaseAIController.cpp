@@ -36,18 +36,18 @@ void ABaseAIController::SetNewMoveDestination(const FVector DestLocation)
         return;
     }
 
-	APawn* const Pawn = GetPawn();
-	if (Pawn)
-	{
-		UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
-		float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
+    APawn* const Pawn_ = GetPawn();
+    if (Pawn_)
+    {
+        UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
+        float const Distance = FVector::Dist(DestLocation, Pawn_->GetActorLocation());
 
-		// We need to issue move command only if far enough in order for walk animation to play correctly
-		if (NavSys && (Distance > 120.0f))
-		{
-			MoveToLocation(DestLocation, 0, 0, 1);
-		}
-	}
+        // We need to issue move command only if far enough in order for walk animation to play correctly
+        if (NavSys)
+        {
+            MoveToLocation(DestLocation, 0, 0, 1);
+        }
+    }
 }
 
 float ABaseAIController::GetDistanceBetween(const FVector SrcLocation, const FVector DestLocation)
@@ -57,20 +57,20 @@ float ABaseAIController::GetDistanceBetween(const FVector SrcLocation, const FVe
 
 float ABaseAIController::GetDistanceToDestination(const FVector DestLocation)
 {
-	APawn* const Pawn = GetPawn();
-	if (Pawn) {
-        return GetDistanceBetween(Pawn->GetActorLocation(), DestLocation);
-	}
+    APawn* const Pawn_ = GetPawn();
+    if (Pawn_) {
+        return GetDistanceBetween(Pawn_->GetActorLocation(), DestLocation);
+    }
     return 0.0f;
 }
 
 bool ABaseAIController::TryGrabPizza()
 {
-    auto* Character = GetCharacter();
-    if (!Character) {
+    auto* Character_ = GetCharacter();
+    if (!Character_) {
         return false;
     }
-    return Character->TryGrabPizza();
+    return Character_->TryGrabPizza();
 }
 
 bool ABaseAIController::TryDeliverPizza(int OrderNumber)
@@ -80,12 +80,12 @@ bool ABaseAIController::TryDeliverPizza(int OrderNumber)
         return false;
     }
 
-    auto* Character = GetCharacter();
-    if (!Character) {
+    auto* Character_ = GetCharacter();
+    if (!Character_) {
         UE_LOG(LogTemp, Warning, TEXT("Failed delivering %d, character is dead"), OrderNumber);
         return false;
     }
-    return MyGameMode->TryDeliverPizza(Character, OrderNumber);
+    return MyGameMode->TryDeliverPizza(Character_, OrderNumber);
 }
 
 TArray<FVector> ABaseAIController::GetHouseLocations()
@@ -102,20 +102,20 @@ TArray<FPizzaOrder> ABaseAIController::GetPizzaOrders()
 
 int ABaseAIController::GetPizzaAmount()
 {
-    auto* Character = GetCharacter();
-    if (!Character) {
+    auto* Character_ = GetCharacter();
+    if (!Character_) {
         return 0;
     }
-    return Character->GetPizzaAmount();
+    return Character_->GetPizzaAmount();
 }
 
 int ABaseAIController::GetPizzaCapacity()
 {
-    auto* Character = GetCharacter();
-    if (!Character) {
+    auto* Character_ = GetCharacter();
+    if (!Character_) {
         return 0;
     }
-    return Character->GetPizzaCapacity();
+    return Character_->GetPizzaCapacity();
 }
 
 ALab_1GameMode* ABaseAIController::GetGameMode()
@@ -125,15 +125,15 @@ ALab_1GameMode* ABaseAIController::GetGameMode()
 
 ALab_1Character* ABaseAIController::GetCharacter()
 {
-	APawn* const Pawn = GetPawn();
-    if (!Pawn) {
+    APawn* const Pawn_ = GetPawn();
+    if (!Pawn_) {
         return nullptr;
     }
-    ALab_1Character* Character = Cast<ALab_1Character>(Pawn);
-    if (!Character) {
+    ALab_1Character* Character_ = Cast<ALab_1Character>(Pawn_);
+    if (!Character_) {
         return nullptr;
     }
-    return Character;
+    return Character_;
 }
 
 float ABaseAIController::GetHouseTimeLeft(int HouseNumber)
@@ -144,20 +144,20 @@ float ABaseAIController::GetHouseTimeLeft(int HouseNumber)
 
 float ABaseAIController::GetCharacterMaxSpeed()
 {
-    auto* Character = GetCharacter();
-    if (!Character) {
+    auto* Character_ = GetCharacter();
+    if (!Character_) {
         return 0.f;
     }
-    return Character->GetCharacterMovement()->MaxWalkSpeed;
+    return Character_->GetCharacterMovement()->MaxWalkSpeed;
 }
 
 FVector ABaseAIController::GetCharacterLocation()
 {
-	APawn* const Pawn = GetPawn();
-	if (!Pawn) {
+    APawn* const Pawn_ = GetPawn();
+    if (!Pawn_) {
         return FVector(0.f, 0.f, 0.f);
-	}
-    return Pawn->GetActorLocation();
+    }
+    return Pawn_->GetActorLocation();
 }
 
 FVector ABaseAIController::GetWorldOrigin()
