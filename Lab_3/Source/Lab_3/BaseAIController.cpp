@@ -13,6 +13,7 @@
 ABaseAIController::ABaseAIController()
 {
     ControllerId = -1;
+    bEscaped = false;
 }
 
 void ABaseAIController::BeginPlay()
@@ -28,6 +29,7 @@ void ABaseAIController::BeginPlay()
 
 void ABaseAIController::Tick(float DeltaSeconds)
 {
+    Super::Tick(DeltaSeconds);
 }
 
 bool ABaseAIController::CheckVisibility(FVector DestLocation)
@@ -43,6 +45,10 @@ bool ABaseAIController::CheckVisibility(FVector DestLocation)
 
 void ABaseAIController::SetNewMoveDestination(FVector DestLocation)
 {
+    if (bEscaped) {
+        return;
+    }
+
     auto* MyGameMode = GetGameMode();
     if (MyGameMode->GetCurrentState() == ELab_3PlayState::EGameOver) {
         return;
@@ -60,8 +66,7 @@ void ABaseAIController::SetNewMoveDestination(FVector DestLocation)
         float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
 
         // We need to issue move command only if far enough in order for walk animation to play correctly
-        if (NavSys && (Distance > 120.0f))
-        {
+        if (NavSys) {
             NavSys->SimpleMoveToLocation(this, DestLocation);
         }
     }
@@ -145,4 +150,30 @@ ABaseAIController* ABaseAIController::GetControllerById(int controllerId)
         return nullptr;
     }
     return MyGameMode->GetControllerById(controllerId);
+}
+
+TArray<FVector> ABaseAIController::GetExitLocations()
+{
+    auto* MyGameMode = GetGameMode();
+    if (!MyGameMode) {
+        return {};
+    }
+    return MyGameMode->GetExitLocations();
+}
+
+bool ABaseAIController::Escape(int ExitIndex)
+{
+    if (bEscaped) {
+        return false;
+    }
+
+    auto* MyGameMode = GetGameMode();
+    if (!MyGameMode) {
+        return false;
+    }
+    bool bSuccess = MyGameMode->Escape(ExitIndex, ControllerId);
+    if (bSuccess) {
+        bEscaped = true;
+    }
+    return bSuccess;
 }

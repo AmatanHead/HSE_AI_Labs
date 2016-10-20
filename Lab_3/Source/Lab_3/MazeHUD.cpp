@@ -28,7 +28,7 @@ void AMazeHUD::DrawHUD()
     double percentile = 0.9;
 
     TArray<FString> Messages;
-    Messages.Add(FString::Printf(TEXT("Time: %d"), MyGameMode->GetTimePassed()));
+    Messages.Add(FString::Printf(TEXT("Time: %.f"), MyGameMode->GetTimePassed()));
 
     float yShift = 0;
     for (int i = 0 ; i < Messages.Num(); ++i) {
@@ -44,7 +44,7 @@ void AMazeHUD::DrawHUD()
     {
         // Create a variable for storing the size of printing Game Over.
         FVector2D GameOverSize;
-        GetTextSize(TEXT("GAME OVER"), GameOverSize.X, GameOverSize.Y, HUDFont);
-        DrawText(TEXT("GAME OVER"), FColor::White, (ScreenDimensions.X - GameOverSize.X) / 2.0f, (ScreenDimensions.Y - GameOverSize.Y) / 2.0f, HUDFont);
+        GetTextSize(TEXT("MAZE SOLVED"), GameOverSize.X, GameOverSize.Y, HUDFont);
+        DrawText(TEXT("MAZE SOLVED"), FColor::White, (ScreenDimensions.X - GameOverSize.X) / 2.0f, (ScreenDimensions.Y - GameOverSize.Y) / 2.0f, HUDFont);
     }
 }

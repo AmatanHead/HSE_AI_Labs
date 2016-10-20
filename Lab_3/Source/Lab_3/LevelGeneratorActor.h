@@ -5,6 +5,16 @@
 #include "GameFramework/Actor.h"
 #include "LevelGeneratorActor.generated.h"
 
+class AMazeExit;
+
+enum class GridContent
+{
+    NONE,
+    WALL,
+    CHARACTER,
+    EXIT
+};
+
 UCLASS()
 class LAB_3_API ALevelGeneratorActor : public AActor
 {
@@ -28,9 +38,15 @@ public:
     UPROPERTY(EditAnywhere, Category = Spawning)
     TSubclassOf<class AActor> WallActor;
 
-    // Number of house actors to spawn.
     UPROPERTY(EditAnywhere, Category = Spawning)
-    int WallActorCount;
+    TSubclassOf<class AMazeExit> ExitActor;
+
+    UPROPERTY(EditAnywhere, Category = Spawning)
+    TSubclassOf<class ACharacter> CharacterActor;
+
+    // Number of character actors to spawn.
+    UPROPERTY(EditAnywhere, Category = Spawning)
+    int CharacterActorCount;
 
     UPROPERTY(EditAnywhere, Category = Spawning)
     int RandomSeed;
@@ -44,21 +60,27 @@ private:
 
     void CollectWorldParameters();
 
+    void GenerateWalls();
+    void GenerateExits();
+    void GenerateCharacters();
     void GenerateMaze();
 
     void SpawnMaze();
 
     void SpawnWall(FVector SpawnLocation);
+    void SpawnExit(FVector SpawnLocation);
+    void SpawnCharacter(FVector SpawnLocation);
+    void SpawnActor(FVector SpawnLocation, FString Name, TSubclassOf<class AActor> ActorClass);
 
     FIntVector GenerateRandomCell() const;
 
     FVector GetCellLocation(FIntVector Cell) const;
 
     bool IsBorderCell(int row, int column) const;
-
     bool IsValidCell(int row, int column) const;
 
     bool HasOccupiedNeighbors(int row, int column) const;
+    bool HasFreeNeighbors(int row, int column) const;
 
     TArray<AActor*> SpawnedActors;
 
@@ -69,7 +91,7 @@ private:
 
     FVector WallActorBoxExtent;
 
-    TArray<TArray<bool>> GridOccupied;
+    TArray<TArray<GridContent>> Grid;
 
     FVector GridOrigin;
     float CellHeight;
