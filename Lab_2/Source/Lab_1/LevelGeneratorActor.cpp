@@ -24,6 +24,7 @@ ALevelGeneratorActor::ALevelGeneratorActor()
 void ALevelGeneratorActor::OnConstruction(const FTransform& Transform)
 {
     if (EnableGeneration) {
+        RandomStream.Reset();
         RandomStream.Initialize(RandomSeed);
         CollectWorldParameters();
         DeleteOldActors();
