@@ -7,6 +7,8 @@
 #include "Lab_1GameMode.h"
 #include "HouseActor.h"
 
+#include <limits>
+
 // Sets default values
 ALevelGeneratorActor::ALevelGeneratorActor()
 {
@@ -23,6 +25,8 @@ ALevelGeneratorActor::ALevelGeneratorActor()
 
 void ALevelGeneratorActor::OnConstruction(const FTransform& Transform)
 {
+    UE_LOG(LogTemp, Warning, TEXT("INIT; Houses count: %d"), SpawnedActors.Num());
+
     if (EnableGeneration) {
         RandomStream.Reset();
         RandomStream.Initialize(RandomSeed);
@@ -74,6 +78,13 @@ void ALevelGeneratorActor::DeleteOldActors()
     for (auto* Actor : SpawnedActors) {
         Actor->Destroy();
     }
+
+    for (int i = 0; i < GridRows; i++) {
+        for (int j = 0; j < GridColumns; j++) {
+            GridOccupied[i][j] = false;
+        }
+    }
+
     SpawnedActors.Empty();
 }
 
@@ -91,10 +102,18 @@ FVector ALevelGeneratorActor::GenerateRandomLocation()
     // The random spawn location will fall between the min and max X, Y, and Z
     int RandomRow;
     int RandomColumn;
+
+    int MaxCount = 1000;
+
     do {
         RandomRow = RandomStream.RandRange(0, GridRows - 1);
         RandomColumn = RandomStream.RandRange(0, GridColumns - 1);
-    } while (GridOccupied[RandomRow][RandomColumn]);
+    } while (GridOccupied[RandomRow][RandomColumn] && MaxCount-- > 0);
+
+    if (GridOccupied[RandomRow][RandomColumn]) {
+        UE_LOG(LogTemp, Error, TEXT("Can not find place to store an actor"));
+        return FVector(std::numeric_limits<float>::infinity());
+    }
 
     GridOccupied[RandomRow][RandomColumn] = true;
 
@@ -119,6 +138,11 @@ void ALevelGeneratorActor::SpawnHouse()
     SpawnParams.Instigator = Instigator;
 
     FVector SpawnLocation(GenerateRandomLocation());
+
+    if (SpawnLocation == FVector(std::numeric_limits<float>::infinity())) {
+        return;
+    }
+
     FRotator SpawnRotation(0.f, 0.f, 0.f);
 
     UE_LOG(LogTemp, Warning, TEXT("Spawned house actor at %s"), *SpawnLocation.ToString());
@@ -151,6 +175,4 @@ void ALevelGeneratorActor::BeginPlay()
 void ALevelGeneratorActor::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
-
