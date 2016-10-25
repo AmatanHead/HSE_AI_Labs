@@ -11,10 +11,10 @@ class ALab_1Character;
 class ALab_1GameMode;
 
 
-struct pairisnotamemberofstdFUCKYOUVISUALSTUDIO {
+struct DestinationPair {
     int a;
     FVector b;
-    pairisnotamemberofstdFUCKYOUVISUALSTUDIO(int a, FVector b): a(a), b(b) {}
+    DestinationPair(int a, FVector b): a(a), b(b) {}
 };
 
 
@@ -37,8 +37,11 @@ private:
 
     float ComputeHouseScore(float Distance, float TimeLeft);
 
-    // Returns vector of order num and house position for each pawn
-    TArray<TArray<pairisnotamemberofstdFUCKYOUVISUALSTUDIO>> ComputeDestinations();
+    // Returns array of order num and house position for each pawn
+    TArray<TArray<DestinationPair>> ComputeDestinations();
+
+    // Picks one (the best) destination from a non-empty Destinations array
+    DestinationPair ChooseDestination(const TArray<DestinationPair>& Destinations);
 
 public:
 

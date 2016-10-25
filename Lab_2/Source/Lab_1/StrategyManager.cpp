@@ -16,12 +16,12 @@ float AStrategyManager::ComputeHouseScore(float Distance, float TimeLeft)
     return fmax(Distance - 150.f, 1.f) * (TimeLeft * TimeLeft);
 }
 
-TArray<TArray<pairisnotamemberofstdFUCKYOUVISUALSTUDIO>> AStrategyManager::ComputeDestinations()
+TArray<TArray<DestinationPair>> AStrategyManager::ComputeDestinations()
 {
     auto Orders = GetPizzaOrders();
     auto HouseLocations = GetHouseLocations();
 
-    TArray<TArray<pairisnotamemberofstdFUCKYOUVISUALSTUDIO>> Destinations;
+    TArray<TArray<DestinationPair>> Destinations;
     TArray<TArray<float>> Scores;
     TArray<TArray<int>> OrderNums;
     TArray<bool> HouseIsBurning;
@@ -77,12 +77,17 @@ TArray<TArray<pairisnotamemberofstdFUCKYOUVISUALSTUDIO>> AStrategyManager::Compu
 
         if (HouseIndex != -1) {
             HouseIsBurning[HouseIndex] = false;
-            pairisnotamemberofstdFUCKYOUVISUALSTUDIO o_O(OrderNums[PawnIndex][HouseIndex], HouseLocations[HouseIndex]);
+            DestinationPair o_O(OrderNums[PawnIndex][HouseIndex], HouseLocations[HouseIndex]);
             Destinations[PawnIndex].Add(o_O);
         }
     } while (HouseIndex != -1);
 
     return Destinations;
+}
+
+DestinationPair AStrategyManager::ChooseDestination(const TArray<DestinationPair>& Destinations)
+{
+    return Destinations[0];
 }
 
 // Sets default values
@@ -161,8 +166,9 @@ void AStrategyManager::Tick(float DeltaTime)
                     UE_LOG(LogTemp, Error, TEXT("Wrong controller"));
                     return;
                 }
-                UE_LOG(LogTemp, Warning, TEXT("%d -> %d"), i, Destinations[i][0].a);
-                controller->SetCurrentOrderNumber(Destinations[i][0].a, Destinations[i][0].b);
+                auto Destination = ChooseDestination(Destinations[i]);
+                UE_LOG(LogTemp, Warning, TEXT("%d -> %d"), i, Destination.a);
+                controller->SetCurrentOrderNumber(Destination.a, Destination.b);
             }
         }
     }
